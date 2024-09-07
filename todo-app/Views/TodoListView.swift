@@ -3,7 +3,6 @@ import SwiftUI
 struct TodoListView: View {
     @StateObject private var viewModel = TodoViewModel()
     
-    
     init(viewModel: TodoViewModel = TodoViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -18,30 +17,32 @@ struct TodoListView: View {
                         .foregroundColor(.red)
                         .multilineTextAlignment(.center)
                 } else {
-                    List(viewModel.todos) { todo in
-                        HStack{
-                            VStack(alignment: .leading) {
-                                Text(todo.title)
-                                    .font(.headline)
-                                if let text = todo.text {
-                                    Text(text)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
+                    List {
+                        ForEach(viewModel.todos) { todo in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(todo.title)
+                                        .font(.headline)
+                                    if let text = todo.text {
+                                        Text(text)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                Spacer()
+                                Image(systemName:
+                                        todo.isDone
+                                      ? "checkmark.circle.fill"
+                                      : "circle")
+                                .foregroundColor(todo.isDone
+                                                 ? .green
+                                                 : .gray)
+                                .onTapGesture {
+                                    viewModel.toggleTodoCompletion(todo)
                                 }
                             }
-                            Spacer()
-                            Image(systemName:
-                                    todo.isDone
-                                  ? "checkmark.circle.fill" 
-                                  : "circle")
-                            .foregroundColor(todo.isDone
-                                             ? .green
-                                             : .gray)
-                            .onTapGesture {
-                                viewModel.toggleTodoCompletion(todo)
-                            }
                         }
-                        
+                        .onDelete(perform: deleteTodo)
                     }
                 }
             }
@@ -49,6 +50,18 @@ struct TodoListView: View {
             .onAppear {
                 viewModel.fetchTodos()
             }
+        }
+    }
+    
+    // Function to handle the deletion of a todo
+    private func deleteTodo(at offsets: IndexSet) {
+        // Convert IndexSet to Array of indexes
+        let indexes = offsets.map { $0 }
+        
+        // Handle deletion for each index
+        for index in indexes {
+            let todo = viewModel.todos[index]
+            viewModel.deleteTodo(todo)
         }
     }
 }
