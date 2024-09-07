@@ -53,19 +53,32 @@ class TodoViewModel: ObservableObject {
     
     
     func deleteTodo(_ todo: Todo) {
-            // Call the API to delete the todo
-            APIService.shared.deleteTodo(todoId: todo.id) { [weak self] result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        // Remove the todo from the local array
-                        if let index = self?.todos.firstIndex(where: { $0.id == todo.id }) {
-                            self?.todos.remove(at: index)
-                        }
-                    case .failure(let error):
-                        self?.errorMessage = "Failed to delete todo: \(error.localizedDescription)"
+        // Call the API to delete the todo
+        APIService.shared.deleteTodo(todoId: todo.id) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    // Remove the todo from the local array
+                    if let index = self?.todos.firstIndex(where: { $0.id == todo.id }) {
+                        self?.todos.remove(at: index)
                     }
+                case .failure(let error):
+                    self?.errorMessage = "Failed to delete todo: \(error.localizedDescription)"
                 }
             }
         }
+    }
+    
+    func addTodo(_ todo: TodoCreate) {
+        APIService.shared.createTodo(todo: todo) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let newTodo):
+                    self?.todos.append(newTodo)
+                case .failure(let error):
+                    self?.errorMessage = "Failed to add todo: \(error.localizedDescription)"
+                }
+            }
+        }
+    }
 }

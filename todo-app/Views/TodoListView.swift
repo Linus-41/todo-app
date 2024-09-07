@@ -2,7 +2,8 @@ import SwiftUI
 
 struct TodoListView: View {
     @StateObject private var viewModel = TodoViewModel()
-    
+    @State private var showingAddTodoView = false
+
     init(viewModel: TodoViewModel = TodoViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -47,18 +48,24 @@ struct TodoListView: View {
                 }
             }
             .navigationBarTitle("To-Do List")
+            .navigationBarItems(trailing: Button(action: {
+                showingAddTodoView = true
+            }) {
+                Image(systemName: "plus")
+            })
             .onAppear {
                 viewModel.fetchTodos()
+            }
+            .sheet(isPresented: $showingAddTodoView) {
+                AddTodoView(viewModel: viewModel)
             }
         }
     }
     
     // Function to handle the deletion of a todo
     private func deleteTodo(at offsets: IndexSet) {
-        // Convert IndexSet to Array of indexes
         let indexes = offsets.map { $0 }
         
-        // Handle deletion for each index
         for index in indexes {
             let todo = viewModel.todos[index]
             viewModel.deleteTodo(todo)

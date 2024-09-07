@@ -20,6 +20,20 @@ struct Todo: Identifiable, Codable {
     }
 }
 
+struct TodoCreate: Codable {
+    let title: String
+    let text: String?
+    var isDone: Bool?
+    let categoryId: Int?       // Optional because `category_id` can be null
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case text
+        case isDone = "is_done"
+        case categoryId = "category_id"
+    }
+}
+
 extension Todo {
     static let mockData: [Todo] = [
         Todo(id: 1, title: "Buy groceries", text: "Milk, Bread, Eggs", isDone: false, categoryId: nil, ownerId: 1, position: 1),
