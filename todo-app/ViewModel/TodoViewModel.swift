@@ -34,8 +34,20 @@ class TodoViewModel: ObservableObject {
     }
     
     func toggleTodoCompletion(_ todo: Todo) {
-        if let index = todos.firstIndex(where: { $0.id == todo.id }) {
-            todos[index].isDone.toggle()
+            // Start by sending the request to the API
+            APIService.shared.toggleTodoStatus(todoId: todo.id) { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        // Update the local state if the server request was successful
+                        if let index = self?.todos.firstIndex(where: { $0.id == todo.id }) {
+                            self?.todos[index].isDone.toggle()
+                        }
+                    case .failure(let error):
+                        // Handle error (e.g., show an alert or message to the user)
+                        self?.errorMessage = "Failed to update status: \(error.localizedDescription)"
+                    }
+                }
+            }
         }
-    }
 }

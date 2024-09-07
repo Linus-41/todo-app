@@ -59,4 +59,40 @@ class APIService {
         }
         task.resume()
     }
+    
+    func toggleTodoStatus(todoId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        let urlString = "\(baseURL)/todos/\(todoId)/toggle_status"
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Add the Authorization header
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            completion(.failure(NSError(domain: "Missing auth token", code: -1, userInfo: nil)))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { _, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                let error = NSError(domain: "Server error", code: -1, userInfo: nil)
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(()))
+        }
+        task.resume()
+    }
 }
