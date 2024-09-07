@@ -57,7 +57,7 @@ struct TodoListView: View {
                 viewModel.fetchTodos()
             }
             .sheet(isPresented: $showingAddTodoView) {
-                AddTodoView(viewModel: viewModel)
+                AddTodoView(viewModel: AddTodoViewModel(),todoViewModel: viewModel)
             }
         }
     }

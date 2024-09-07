@@ -1,34 +1,48 @@
 import SwiftUI
 
 struct AddTodoView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @State private var title: String = ""
-    @State private var text: String = ""
-    @State private var isDone: Bool = false
-    @ObservedObject var viewModel: TodoViewModel
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var viewModel: AddTodoViewModel
+    var todoViewModel: TodoViewModel
     
     var body: some View {
         NavigationView {
             Form {
-                TextField("Title", text: $title)
-                TextField("Text", text: $text)
-                Toggle("Done", isOn: $isDone)
-                
-                Button(action: addTodo) {
-                    Text("Add Todo")
+                Section {
+                    TextField("Title", text: $viewModel.title)
+                    TextField("Text", text: $viewModel.text)
+                    Toggle("Done", isOn: $viewModel.isDone)
+                } footer: {
+                    Text("Enter todo information")
                 }
-                .disabled(title.isEmpty) // Disable button if title is empty
             }
-            .navigationBarTitle("Add New Todo")
-            .navigationBarItems(trailing: Button("Cancel") {
-                presentationMode.wrappedValue.dismiss()
+            .navigationTitle("Add New Todo")
+            .toolbar(content: {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        addTodo()
+                    }
+                    .disabled(!viewModel.isFormValid)
+                }
+                
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", role: .cancel) {
+                        dismiss()
+                    }
+                }
             })
         }
     }
     
     private func addTodo() {
-        let newTodo = TodoCreate(title: title, text: text, isDone: isDone, categoryId: nil)
-        viewModel.addTodo(newTodo)
-        presentationMode.wrappedValue.dismiss()
+        let newTodo = viewModel.createTodo()
+        todoViewModel.addTodo(newTodo)
+        dismiss()
+    }
+}
+
+struct AddTodoView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddTodoView(viewModel: AddTodoViewModel(), todoViewModel: TodoViewModel())
     }
 }
