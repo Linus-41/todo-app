@@ -5,25 +5,32 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
+            Text("Todo App")
+                .font(.system(size: 50))
+                .bold()
+            Spacer()
             TextField("Username", text: $loginViewModel.username)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocapitalization(.none)
             
             SecureField("Password", text: $loginViewModel.password)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button(action: {
-                loginViewModel.login()
-            }) {
-                Text("Login")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
+            
+            Button("Sign in ", action: loginViewModel.login)
+                .buttonStyle(.borderedProminent)
+            
+            Spacer()
+            Text("Not signed up yet?")
+                .foregroundStyle(.gray)
+            Button("Sign up", action: {
+                // Sign up todo 
+            })
         }
+        .textFieldStyle(.roundedBorder)
         .padding()
     }
+}
+
+
+#Preview {
+    LoginView(loginViewModel: LoginViewModel())
 }
