@@ -43,39 +43,39 @@ class APIService {
     }
     
     func signUp(username: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
-            guard let url = URL(string: "\(baseURL)/user/") else {
-                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let user = UserCreate(user_name: username, password: password)
-            guard let encodedUser = try? JSONEncoder().encode(user) else {
-                completion(.failure(NSError(domain: "Encoding Error", code: -1, userInfo: nil)))
-                return
-            }
-            
-            request.httpBody = encodedUser
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    let error = NSError(domain: "Sign-up failed", code: -1, userInfo: nil)
-                    completion(.failure(error))
-                    return
-                }
-                
-                completion(.success(()))
-            }
-            task.resume()
+        guard let url = URL(string: "\(baseURL)/user/") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
         }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let user = UserCreate(user_name: username, password: password)
+        guard let encodedUser = try? JSONEncoder().encode(user) else {
+            completion(.failure(NSError(domain: "Encoding Error", code: -1, userInfo: nil)))
+            return
+        }
+        
+        request.httpBody = encodedUser
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                let error = NSError(domain: "Sign-up failed", code: -1, userInfo: nil)
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(()))
+        }
+        task.resume()
+    }
     
     
     func fetchTodos(excludeDone: Bool = false, excludeShared: Bool = false, skip: Int = 0, limit: Int = 100, completion: @escaping (Result<[Todo], Error>) -> Void) {

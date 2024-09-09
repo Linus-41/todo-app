@@ -16,7 +16,7 @@ struct LoginView: View {
                     Text("Sign in ")
                         .font(.system(size: 20))
                         .italic()
-                        
+                    
                     Spacer()
                 }
                 

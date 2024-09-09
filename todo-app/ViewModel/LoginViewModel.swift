@@ -7,8 +7,6 @@ class LoginViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var showError: Bool = false
     
-    private var cancellables = Set<AnyCancellable>()
-    
     func login() {
         APIService.shared.login(username: username, password: password) { result in
             DispatchQueue.main.async {

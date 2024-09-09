@@ -3,7 +3,7 @@ import SwiftUI
 struct TodoListView: View {
     @StateObject private var viewModel = TodoViewModel()
     @State private var showingAddTodoView = false
-
+    
     init(viewModel: TodoViewModel = TodoViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }

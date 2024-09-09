@@ -17,7 +17,7 @@ struct SignUpView: View {
                 Text("Sign up ")
                     .font(.system(size: 20))
                     .italic()
-                    
+                
                 Spacer()
             }
             TextField("Username", text: $signUpViewModel.username)
@@ -39,7 +39,7 @@ struct SignUpView: View {
                     signUpViewModel.errorMessage = "Passwords not matching!"
                 }
             })
-                .buttonStyle(.borderedProminent)
+            .buttonStyle(.borderedProminent)
         }
         .textFieldStyle(.roundedBorder)
         .padding()
