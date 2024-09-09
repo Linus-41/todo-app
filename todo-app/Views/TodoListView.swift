@@ -45,6 +45,12 @@ struct TodoListView: View {
                     }
                     .onDelete(perform: deleteTodo)
                 }
+                .overlay(content: {
+                    if viewModel.todos.isEmpty{
+                        Text("No todos created yet!")
+                        Spacer()
+                    }
+                })
                 .navigationBarTitle("ToDo")
                 .navigationBarItems(trailing: Button(action: {
                     showingAddTodoView = true
