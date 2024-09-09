@@ -2,8 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var contentViewModel:ContentViewModel
-    @ObservedObject var loginViewModel: LoginViewModel
-    var signUpViewModel: SignUpViewModel
+    @ObservedObject var loginViewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack{
@@ -33,14 +32,14 @@ struct LoginView: View {
                 Button("Sign in ", action: {
                     loginViewModel.login(contentViewModel: contentViewModel)
                 })
-                    .buttonStyle(.borderedProminent)
-                    .disabled(!loginViewModel.isValid())
+                .buttonStyle(.borderedProminent)
+                .disabled(!loginViewModel.isValid())
                 
                 Spacer()
                 Text("Not signed up yet?")
                     .foregroundStyle(.gray)
                 NavigationLink("Create new account", destination: 
-                                SignUpView(signUpViewModel: signUpViewModel))
+                                SignUpView())
             }
             .textFieldStyle(.roundedBorder)
             .padding()
@@ -50,5 +49,5 @@ struct LoginView: View {
 
 
 #Preview {
-    LoginView(loginViewModel: LoginViewModel(), signUpViewModel: SignUpViewModel())
+    LoginView()
 }

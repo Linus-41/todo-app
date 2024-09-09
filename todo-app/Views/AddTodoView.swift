@@ -2,16 +2,16 @@ import SwiftUI
 
 struct AddTodoView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var viewModel: AddTodoViewModel
+    @ObservedObject var addTodoViewModel = AddTodoViewModel()
     var todoListViewModel: TodoListViewModel
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Title", text: $viewModel.title)
-                    TextField("Text", text: $viewModel.text)
-                    Toggle("Done", isOn: $viewModel.isDone)
+                    TextField("Title", text: $addTodoViewModel.title)
+                    TextField("Text", text: $addTodoViewModel.text)
+                    Toggle("Done", isOn: $addTodoViewModel.isDone)
                 } footer: {
                     Text("Enter todo information")
                 }
@@ -20,7 +20,7 @@ struct AddTodoView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done", action: addTodo)
-                    .disabled(!viewModel.isFormValid)
+                        .disabled(!addTodoViewModel.isFormValid)
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
@@ -33,7 +33,7 @@ struct AddTodoView: View {
     }
     
     private func addTodo() {
-        let newTodo = viewModel.createTodo()
+        let newTodo = addTodoViewModel.createTodo()
         todoListViewModel.addTodo(newTodo)
         dismiss()
     }

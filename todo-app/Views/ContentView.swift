@@ -8,7 +8,7 @@ struct ContentView: View {
             if contentViewModel.isSignedIn{
                 TodoListView()
             } else {
-                LoginView(loginViewModel: LoginViewModel(), signUpViewModel: SignUpViewModel())
+                LoginView()
             }
         }
     }

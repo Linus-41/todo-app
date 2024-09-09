@@ -5,7 +5,7 @@ class TodoListViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var hasFetchedTodos = false
-
+    
     
     init(todos: [Todo] = []) {
         if !todos.isEmpty {

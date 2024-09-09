@@ -1,25 +1,22 @@
 import SwiftUI
 
 struct TodoListView: View {
-    @StateObject private var viewModel = TodoListViewModel()
+    @ObservedObject private var todoListViewModel = TodoListViewModel()
     @State private var showingAddTodoView = false
     
-    init(viewModel: TodoListViewModel = TodoListViewModel()) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         NavigationStack {
-            if viewModel.isLoading {
+            if todoListViewModel.isLoading {
                 ProgressView("Loading Todos...")
             }
-            else if let errorMessage = viewModel.errorMessage {
+            else if let errorMessage = todoListViewModel.errorMessage {
                 Text("Error: \(errorMessage)")
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
             } else {
                 List {
-                    ForEach(viewModel.todos) { todo in
+                    ForEach(todoListViewModel.todos) { todo in
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(todo.title)
@@ -39,14 +36,14 @@ struct TodoListView: View {
                                              ? .green
                                              : .gray)
                             .onTapGesture {
-                                viewModel.toggleTodoCompletion(todo)
+                                todoListViewModel.toggleTodoCompletion(todo)
                             }
                         }
                     }
                     .onDelete(perform: deleteTodo)
                 }
                 .overlay(content: {
-                    if viewModel.todos.isEmpty{
+                    if todoListViewModel.todos.isEmpty{
                         Text("No todos created yet!")
                         Spacer()
                     }
@@ -54,7 +51,7 @@ struct TodoListView: View {
                 .navigationBarTitle("ToDo")
                 .toolbar(content: {
                     ToolbarItem(placement: .topBarLeading, content: {
-                        NavigationLink(destination: SettingsView(settingsViewModel: SettingsViewModel())) {
+                        NavigationLink(destination: SettingsView()) {
                             Image(systemName: "gearshape")
                         }
                     })
@@ -68,10 +65,10 @@ struct TodoListView: View {
                     })
                 })
                 .onAppear {
-                    viewModel.fetchTodos()
+                    todoListViewModel.fetchTodos()
                 }
                 .sheet(isPresented: $showingAddTodoView) {
-                    AddTodoView(viewModel: AddTodoViewModel(),todoListViewModel: viewModel)
+                    AddTodoView(todoListViewModel: todoListViewModel)
                 }
             }
         }
@@ -81,12 +78,12 @@ struct TodoListView: View {
         let indexes = offsets.map { $0 }
         
         for index in indexes {
-            let todo = viewModel.todos[index]
-            viewModel.deleteTodo(todo)
+            let todo = todoListViewModel.todos[index]
+            todoListViewModel.deleteTodo(todo)
         }
     }
 }
 
 #Preview {
-    TodoListView(viewModel: TodoListViewModel(todos: Todo.mockData))
+    TodoListView()
 }
