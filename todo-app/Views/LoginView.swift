@@ -22,12 +22,16 @@ struct LoginView: View {
                 
                 TextField("Username", text: $loginViewModel.username)
                     .autocapitalization(.none)
-                
                 SecureField("Password", text: $loginViewModel.password)
+                if let errorMessage = loginViewModel.errorMessage{
+                    Text("Error: \(errorMessage)")
+                        .foregroundStyle(.red)
+                }
                 
                 
                 Button("Sign in ", action: loginViewModel.login)
                     .buttonStyle(.borderedProminent)
+                    .disabled(!loginViewModel.isValid())
                 
                 Spacer()
                 Text("Not signed up yet?")

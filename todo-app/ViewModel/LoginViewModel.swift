@@ -5,7 +5,7 @@ class LoginViewModel: ObservableObject {
     @Published var username: String = ""
     @Published var password: String = ""
     @Published var isLoggedIn: Bool = false
-    @Published var showError: Bool = false
+    @Published var errorMessage: String?
     
     func login() {
         APIService.shared.login(username: username, password: password) { result in
@@ -15,10 +15,14 @@ class LoginViewModel: ObservableObject {
                     print("Access Token: \(token)")
                     self.isLoggedIn = true
                 case .failure(let error):
-                    print("Login failed: \(error.localizedDescription)")
-                    self.showError = true
+                    print(error.localizedDescription)
+                    self.errorMessage = error.localizedDescription
                 }
             }
         }
+    }
+    
+    func isValid()-> Bool{
+        return !username.isEmpty && !password.isEmpty
     }
 }

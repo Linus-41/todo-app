@@ -26,17 +26,30 @@ class APIService {
                 completion(.failure(error))
                 return
             }
-            guard let data = data else {
-                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+            
+            guard let response = response as? HTTPURLResponse else { return }
+            
+            guard let data = data else{
                 return
             }
             
-            do {
-                let tokenResponse = try JSONDecoder().decode(TokenResponse.self, from: data)
-                self.saveToken(tokenResponse.access_token)
-                completion(.success(tokenResponse.access_token))
-            } catch {
-                completion(.failure(error))
+            if response.statusCode == 200{
+                do {
+                    let tokenResponse = try JSONDecoder().decode(TokenResponse.self, from: data)
+                    self.saveToken(tokenResponse.access_token)
+                    completion(.success(tokenResponse.access_token))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            else{
+                do {
+                    let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: data)
+                    let customError = NSError(domain: "", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: errorResponse.detail])
+                    completion(.failure(customError))
+                } catch {
+                    completion(.failure(error))
+                }
             }
         }
         task.resume()
