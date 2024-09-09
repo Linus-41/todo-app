@@ -1,10 +1,3 @@
-//
-//  SignUpView.swift
-//  todo-app
-//
-//  Created by Linus Widing on 08.09.24.
-//
-
 import SwiftUI
 
 struct SignUpView: View {
@@ -24,7 +17,9 @@ struct SignUpView: View {
                 .autocapitalization(.none)
             
             SecureField("Password", text: $signUpViewModel.password)
+                .textContentType(.newPassword)
             SecureField("Confirm password", text: $signUpViewModel.confirmPassword)
+                .textContentType(.newPassword)
             if let errorMessage = signUpViewModel.errorMessage{
                 Text("Error: \(errorMessage)")
                     .foregroundStyle(.red)

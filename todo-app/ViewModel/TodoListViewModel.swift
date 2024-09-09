@@ -1,6 +1,6 @@
 import Foundation
 
-class TodoViewModel: ObservableObject {
+class TodoListViewModel: ObservableObject {
     @Published var todos: [Todo] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
@@ -34,17 +34,14 @@ class TodoViewModel: ObservableObject {
     }
     
     func toggleTodoCompletion(_ todo: Todo) {
-        // Start by sending the request to the API
         APIService.shared.toggleTodoStatus(todoId: todo.id) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    // Update the local state if the server request was successful
                     if let index = self?.todos.firstIndex(where: { $0.id == todo.id }) {
                         self?.todos[index].isDone.toggle()
                     }
                 case .failure(let error):
-                    // Handle error (e.g., show an alert or message to the user)
                     self?.errorMessage = "Failed to update status: \(error.localizedDescription)"
                 }
             }
@@ -53,12 +50,10 @@ class TodoViewModel: ObservableObject {
     
     
     func deleteTodo(_ todo: Todo) {
-        // Call the API to delete the todo
         APIService.shared.deleteTodo(todoId: todo.id) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    // Remove the todo from the local array
                     if let index = self?.todos.firstIndex(where: { $0.id == todo.id }) {
                         self?.todos.remove(at: index)
                     }

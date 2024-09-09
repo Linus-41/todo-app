@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct TodoListView: View {
-    @StateObject private var viewModel = TodoViewModel()
+    @StateObject private var viewModel = TodoListViewModel()
     @State private var showingAddTodoView = false
     
-    init(viewModel: TodoViewModel = TodoViewModel()) {
+    init(viewModel: TodoListViewModel = TodoListViewModel()) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -54,7 +54,7 @@ struct TodoListView: View {
                     viewModel.fetchTodos()
                 }
                 .sheet(isPresented: $showingAddTodoView) {
-                    AddTodoView(viewModel: AddTodoViewModel(),todoViewModel: viewModel)
+                    AddTodoView(viewModel: AddTodoViewModel(),todoListViewModel: viewModel)
                 }
             }
         }
@@ -71,5 +71,5 @@ struct TodoListView: View {
 }
 
 #Preview {
-    TodoListView(viewModel: TodoViewModel(todos: Todo.mockData))
+    TodoListView(viewModel: TodoListViewModel(todos: Todo.mockData))
 }

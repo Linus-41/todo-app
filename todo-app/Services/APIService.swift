@@ -109,7 +109,6 @@ class APIService {
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Add the Authorization header
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
@@ -128,7 +127,6 @@ class APIService {
                 return
             }
             
-            // Log the raw response
             if let jsonString = String(data: data, encoding: .utf8) {
                 print("Raw JSON response: \(jsonString)")
             }
@@ -154,7 +152,6 @@ class APIService {
         request.httpMethod = "PATCH"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        // Add the Authorization header
         if let token = authToken {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
@@ -179,7 +176,6 @@ class APIService {
         task.resume()
     }
     
-    // New function to delete a todo
     func deleteTodo(todoId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
         let urlString = "\(baseURL)/todos/\(todoId)"
         guard let url = URL(string: urlString) else {

@@ -3,10 +3,10 @@ import SwiftUI
 struct AddTodoView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: AddTodoViewModel
-    var todoViewModel: TodoViewModel
+    var todoListViewModel: TodoListViewModel
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Title", text: $viewModel.title)
@@ -19,9 +19,7 @@ struct AddTodoView: View {
             .navigationTitle("Add New Todo")
             .toolbar(content: {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        addTodo()
-                    }
+                    Button("Done", action: addTodo)
                     .disabled(!viewModel.isFormValid)
                 }
                 
@@ -36,13 +34,7 @@ struct AddTodoView: View {
     
     private func addTodo() {
         let newTodo = viewModel.createTodo()
-        todoViewModel.addTodo(newTodo)
+        todoListViewModel.addTodo(newTodo)
         dismiss()
-    }
-}
-
-struct AddTodoView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddTodoView(viewModel: AddTodoViewModel(), todoViewModel: TodoViewModel())
     }
 }

@@ -5,7 +5,7 @@ struct Todo: Identifiable, Codable {
     let title: String
     let text: String?
     var isDone: Bool
-    let categoryId: Int?       // Optional because `category_id` can be null
+    let categoryId: Int?
     let ownerId: Int
     let position: Int
     
@@ -24,7 +24,7 @@ struct TodoCreate: Codable {
     let title: String
     let text: String?
     var isDone: Bool?
-    let categoryId: Int?       // Optional because `category_id` can be null
+    let categoryId: Int?
     
     enum CodingKeys: String, CodingKey {
         case title
