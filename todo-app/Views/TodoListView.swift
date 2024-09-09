@@ -54,7 +54,7 @@ struct TodoListView: View {
                 .navigationBarTitle("ToDo")
                 .toolbar(content: {
                     ToolbarItem(placement: .topBarLeading, content: {
-                        NavigationLink(destination: SettingsView()) {
+                        NavigationLink(destination: SettingsView(settingsViewModel: SettingsViewModel())) {
                             Image(systemName: "gearshape")
                         }
                     })

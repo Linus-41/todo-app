@@ -4,6 +4,8 @@ struct SignUpView: View {
     @ObservedObject var signUpViewModel: SignUpViewModel
     @Environment(\.presentationMode) var presentationMode
     
+    @EnvironmentObject var contentViewModel: ContentViewModel
+    
     var body: some View {
         VStack {
             HStack{
@@ -28,7 +30,7 @@ struct SignUpView: View {
             Button("Sign up ", action: {
                 
                 if signUpViewModel.isValid(){
-                    signUpViewModel.signUp()
+                    signUpViewModel.signUp(contentViewModel: contentViewModel)
                 }
                 else{
                     signUpViewModel.errorMessage = "Passwords not matching!"
@@ -39,7 +41,7 @@ struct SignUpView: View {
         }
         .textFieldStyle(.roundedBorder)
         .padding()
-        .onChange(of: signUpViewModel.isSignedUp, initial: false) { oldValue, newValue in
+        .onChange(of: contentViewModel.isSignedIn, initial: false) { oldValue, newValue in
             presentationMode.wrappedValue.dismiss()
         }
         

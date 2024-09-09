@@ -1,15 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var loginViewModel = LoginViewModel()
-    @StateObject private var signUpViewModel = SignUpViewModel()
+    @EnvironmentObject var contentViewModel: ContentViewModel
     
     var body: some View {
         NavigationStack {
-            if loginViewModel.isLoggedIn || signUpViewModel.isSignedUp{
+            if contentViewModel.isSignedIn{
                 TodoListView()
             } else {
-                LoginView(loginViewModel: loginViewModel, signUpViewModel: signUpViewModel)
+                LoginView(loginViewModel: LoginViewModel(), signUpViewModel: SignUpViewModel())
             }
         }
     }

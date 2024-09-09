@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject var contentViewModel:ContentViewModel
     @ObservedObject var loginViewModel: LoginViewModel
     var signUpViewModel: SignUpViewModel
     
@@ -29,7 +30,9 @@ struct LoginView: View {
                 }
                 
                 
-                Button("Sign in ", action: loginViewModel.login)
+                Button("Sign in ", action: {
+                    loginViewModel.login(contentViewModel: contentViewModel)
+                })
                     .buttonStyle(.borderedProminent)
                     .disabled(!loginViewModel.isValid())
                 

@@ -7,12 +7,12 @@ class SignUpViewModel: ObservableObject {
     @Published var isSignedUp: Bool = false
     @Published var errorMessage: String?
     
-    func signUp() {
+    func signUp(contentViewModel: ContentViewModel) {
         APIService.shared.signUp(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    self.loginAfterSignUp()
+                    self.loginAfterSignUp(contentViewModel: contentViewModel)
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
@@ -31,13 +31,13 @@ class SignUpViewModel: ObservableObject {
         return true
     }
     
-    private func loginAfterSignUp(){
+    private func loginAfterSignUp(contentViewModel: ContentViewModel){
         APIService.shared.login(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
                     print("Access Token: \(token)")
-                    self.isSignedUp = true
+                    contentViewModel.isSignedIn = true
                 case .failure(let error):
                     print("Login failed: \(error.localizedDescription)")
                     self.errorMessage = error.localizedDescription

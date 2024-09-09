@@ -6,13 +6,13 @@ class LoginViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var errorMessage: String?
     
-    func login() {
+    func login(contentViewModel: ContentViewModel) {
         APIService.shared.login(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
                     print("Access Token: \(token)")
-                    self.isLoggedIn = true
+                    contentViewModel.isSignedIn = true
                 case .failure(let error):
                     print(error.localizedDescription)
                     self.errorMessage = error.localizedDescription
