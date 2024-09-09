@@ -52,10 +52,20 @@ struct TodoListView: View {
                     }
                 })
                 .navigationBarTitle("ToDo")
-                .navigationBarItems(trailing: Button(action: {
-                    showingAddTodoView = true
-                }) {
-                    Image(systemName: "plus")
+                .toolbar(content: {
+                    ToolbarItem(placement: .topBarLeading, content: {
+                        NavigationLink(destination: SettingsView()) {
+                            Image(systemName: "gearshape")
+                        }
+                    })
+                    
+                    ToolbarItem(placement: .topBarTrailing, content: {
+                        Button(action: {
+                            showingAddTodoView = true
+                        }, label: {
+                            Image(systemName: "plus")
+                        })
+                    })
                 })
                 .onAppear {
                     viewModel.fetchTodos()

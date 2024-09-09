@@ -24,6 +24,8 @@
 		15324C0F2C8E13620027BABA /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C0E2C8E13620027BABA /* SignUpView.swift */; };
 		15324C112C8E13D70027BABA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C102C8E13D70027BABA /* SignUpViewModel.swift */; };
 		15324C132C8E24DE0027BABA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C122C8E24DE0027BABA /* User.swift */; };
+		155F1B062C8F4A770046F733 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155F1B052C8F4A770046F733 /* SettingsView.swift */; };
+		155F1B082C8F4BB50046F733 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155F1B072C8F4BB50046F733 /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		15324C0E2C8E13620027BABA /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		15324C102C8E13D70027BABA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		15324C122C8E24DE0027BABA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		155F1B052C8F4A770046F733 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		155F1B072C8F4BB50046F733 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 				15324C062C8C75D90027BABA /* TodoListView.swift */,
 				15324C082C8CAB4F0027BABA /* AddTodoView.swift */,
 				15324C0E2C8E13620027BABA /* SignUpView.swift */,
+				155F1B052C8F4A770046F733 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 				15324C042C8C75C50027BABA /* TodoListViewModel.swift */,
 				15324C0A2C8CC1DD0027BABA /* AddTodoViewModel.swift */,
 				15324C102C8E13D70027BABA /* SignUpViewModel.swift */,
+				155F1B072C8F4BB50046F733 /* ContentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155F1B062C8F4A770046F733 /* SettingsView.swift in Sources */,
 				15324BED2C8B041E0027BABA /* ContentView.swift in Sources */,
 				151B0EE02C8A45DD005A9C5E /* todo_appApp.swift in Sources */,
 				15324C092C8CAB4F0027BABA /* AddTodoView.swift in Sources */,
@@ -220,6 +227,7 @@
 				15324C132C8E24DE0027BABA /* User.swift in Sources */,
 				15324C072C8C75D90027BABA /* TodoListView.swift in Sources */,
 				15324C012C8C758F0027BABA /* Todo.swift in Sources */,
+				155F1B082C8F4BB50046F733 /* ContentViewModel.swift in Sources */,
 				15324C112C8E13D70027BABA /* SignUpViewModel.swift in Sources */,
 				15324C0B2C8CC1DE0027BABA /* AddTodoViewModel.swift in Sources */,
 				15324BF12C8B04810027BABA /* LoginView.swift in Sources */,
