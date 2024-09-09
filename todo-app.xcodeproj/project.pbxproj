@@ -33,6 +33,7 @@
 		151B0EDF2C8A45DD005A9C5E /* todo_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = todo_appApp.swift; sourceTree = "<group>"; };
 		151B0EE32C8A45DE005A9C5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		151B0EE62C8A45DE005A9C5E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		152CD7732C8FB273006F9D46 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		15324BEC2C8B041E0027BABA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		15324BF02C8B04810027BABA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		15324BF72C8B0B7B0027BABA /* Authetication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authetication.swift; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 				151B0EDF2C8A45DD005A9C5E /* todo_appApp.swift */,
 				151B0EE32C8A45DE005A9C5E /* Assets.xcassets */,
 				151B0EE52C8A45DE005A9C5E /* Preview Content */,
+				152CD7732C8FB273006F9D46 /* README.md */,
 			);
 			path = "todo-app";
 			sourceTree = "<group>";
