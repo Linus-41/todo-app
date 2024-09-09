@@ -4,6 +4,8 @@ class TodoListViewModel: ObservableObject {
     @Published var todos: [Todo] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var hasFetchedTodos = false
+
     
     init(todos: [Todo] = []) {
         if !todos.isEmpty {
@@ -13,7 +15,7 @@ class TodoListViewModel: ObservableObject {
     
     
     func fetchTodos() {
-        if !todos.isEmpty{
+        if hasFetchedTodos {
             return
         }
         
@@ -23,6 +25,7 @@ class TodoListViewModel: ObservableObject {
         APIService.shared.fetchTodos { [weak self] result in
             DispatchQueue.main.async {
                 self?.isLoading = false
+                self?.hasFetchedTodos = true
                 switch result {
                 case .success(let todos):
                     self?.todos = todos

@@ -20,6 +20,17 @@ class SignUpViewModel: ObservableObject {
         }
     }
     
+    func isValid()->Bool{
+        if username.isEmpty || password.isEmpty || confirmPassword.isEmpty{
+            return false
+        }
+        
+        if password != confirmPassword{
+            return false
+        }
+        return true
+    }
+    
     private func loginAfterSignUp(){
         APIService.shared.login(username: username, password: password) { result in
             DispatchQueue.main.async {

@@ -27,7 +27,7 @@ struct SignUpView: View {
             
             Button("Sign up ", action: {
                 
-                if validatePassword(){
+                if signUpViewModel.isValid(){
                     signUpViewModel.signUp()
                 }
                 else{
@@ -35,6 +35,7 @@ struct SignUpView: View {
                 }
             })
             .buttonStyle(.borderedProminent)
+            .disabled(!signUpViewModel.isValid())
         }
         .textFieldStyle(.roundedBorder)
         .padding()
@@ -42,10 +43,6 @@ struct SignUpView: View {
             presentationMode.wrappedValue.dismiss()
         }
         
-    }
-    
-    private func validatePassword() -> Bool{
-        return signUpViewModel.password == signUpViewModel.confirmPassword
     }
 }
 

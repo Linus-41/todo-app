@@ -12,7 +12,8 @@ struct TodoListView: View {
         NavigationStack {
             if viewModel.isLoading {
                 ProgressView("Loading Todos...")
-            } else if let errorMessage = viewModel.errorMessage {
+            }
+            else if let errorMessage = viewModel.errorMessage {
                 Text("Error: \(errorMessage)")
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
