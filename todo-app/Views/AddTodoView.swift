@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AddTodoView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var addTodoViewModel = AddTodoViewModel()
+    @StateObject var addTodoViewModel = AddTodoViewModel()
     var todoListViewModel: TodoListViewModel
     
     var body: some View {

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var contentViewModel:ContentViewModel
-    @ObservedObject var loginViewModel = LoginViewModel()
+    @StateObject var loginViewModel = LoginViewModel()
     
     var body: some View {
         NavigationStack{

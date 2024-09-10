@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TodoListView: View {
-    @ObservedObject private var todoListViewModel = TodoListViewModel()
+    @StateObject private var todoListViewModel = TodoListViewModel()
     @State private var showingAddTodoView = false
     
     

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @ObservedObject var signUpViewModel = SignUpViewModel()
+    @StateObject var signUpViewModel = SignUpViewModel()
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var contentViewModel: ContentViewModel
