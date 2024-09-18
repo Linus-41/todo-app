@@ -3,46 +3,50 @@ import SwiftUI
 struct LoginView: View {
     @EnvironmentObject var contentViewModel:ContentViewModel
     @StateObject var loginViewModel = LoginViewModel()
+    @State var showingRegisterSheet: Bool = false
     
     var body: some View {
         NavigationStack{
             VStack {
-                Text("Todo App")
-                    .font(.system(size: 50))
-                    .bold()
-                Spacer()
                 
-                HStack{
-                    Text("Sign in ")
-                        .font(.system(size: 20))
-                        .italic()
+                Image("minimalistic-todo-app")
+                    .resizable()
+                    .frame(width: 150, height: 150)
+                
+                Text("Login to EasyTodo")
+                    .font(.system(size: 30))
+                
+                
+                VStack{
+                    TextField("Username", text: $loginViewModel.username)
+                        .autocapitalization(.none)
+                        .modifier(CustomTextFieldModifier())
                     
-                    Spacer()
+                    SecureField("Password", text: $loginViewModel.password)
+                        .modifier(CustomTextFieldModifier())
+                    
+                    if let errorMessage = loginViewModel.errorMessage{
+                        Text("Error: \(errorMessage)")
+                            .foregroundStyle(.red)
+                    }
+                    
+                    CustomButton("Sign in ", action: {
+                        loginViewModel.login(contentViewModel: contentViewModel)
+                    })
+                    .disabled(!loginViewModel.isValid())
                 }
-                
-                TextField("Username", text: $loginViewModel.username)
-                    .autocapitalization(.none)
-                SecureField("Password", text: $loginViewModel.password)
-                if let errorMessage = loginViewModel.errorMessage{
-                    Text("Error: \(errorMessage)")
-                        .foregroundStyle(.red)
-                }
-                
-                
-                Button("Sign in ", action: {
-                    loginViewModel.login(contentViewModel: contentViewModel)
-                })
-                .buttonStyle(.borderedProminent)
-                .disabled(!loginViewModel.isValid())
                 
                 Spacer()
                 Text("Not signed up yet?")
                     .foregroundStyle(.gray)
-                NavigationLink("Create new account", destination: 
-                                SignUpView())
+                Button("Create new account", action: {
+                    showingRegisterSheet = true
+                })
             }
-            .textFieldStyle(.roundedBorder)
             .padding()
+            .sheet(isPresented: $showingRegisterSheet) {
+                RegisterView()
+            }
         }
     }
 }

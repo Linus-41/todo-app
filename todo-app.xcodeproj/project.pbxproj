@@ -20,11 +20,12 @@
 		15324C072C8C75D90027BABA /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C062C8C75D90027BABA /* TodoListView.swift */; };
 		15324C092C8CAB4F0027BABA /* AddTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C082C8CAB4F0027BABA /* AddTodoView.swift */; };
 		15324C0B2C8CC1DE0027BABA /* AddTodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C0A2C8CC1DD0027BABA /* AddTodoViewModel.swift */; };
-		15324C0F2C8E13620027BABA /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C0E2C8E13620027BABA /* SignUpView.swift */; };
-		15324C112C8E13D70027BABA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C102C8E13D70027BABA /* SignUpViewModel.swift */; };
 		15324C132C8E24DE0027BABA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15324C122C8E24DE0027BABA /* User.swift */; };
 		155F1B062C8F4A770046F733 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155F1B052C8F4A770046F733 /* SettingsView.swift */; };
 		155F1B082C8F4BB50046F733 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155F1B072C8F4BB50046F733 /* ContentViewModel.swift */; };
+		15B112952C9B0AA400993B10 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B112942C9B0AA400993B10 /* RegisterView.swift */; };
+		15B112972C9B0C2300993B10 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B112962C9B0C2300993B10 /* RegisterViewModel.swift */; };
+		15CC05972C94EF5600C1F3E4 /* templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CC05962C94EF5600C1F3E4 /* templates.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,11 +44,12 @@
 		15324C062C8C75D90027BABA /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
 		15324C082C8CAB4F0027BABA /* AddTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoView.swift; sourceTree = "<group>"; };
 		15324C0A2C8CC1DD0027BABA /* AddTodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewModel.swift; sourceTree = "<group>"; };
-		15324C0E2C8E13620027BABA /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		15324C102C8E13D70027BABA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		15324C122C8E24DE0027BABA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		155F1B052C8F4A770046F733 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		155F1B072C8F4BB50046F733 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		15B112942C9B0AA400993B10 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		15B112962C9B0C2300993B10 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		15CC05962C94EF5600C1F3E4 /* templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = templates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				15324BEB2C8B03AE0027BABA /* ViewModel */,
 				15324BEA2C8B03A30027BABA /* Views */,
 				151B0EDF2C8A45DD005A9C5E /* todo_appApp.swift */,
+				15CC05962C94EF5600C1F3E4 /* templates.swift */,
 				151B0EE32C8A45DE005A9C5E /* Assets.xcassets */,
 				151B0EE52C8A45DE005A9C5E /* Preview Content */,
 				152CD7732C8FB273006F9D46 /* README.md */,
@@ -107,7 +110,7 @@
 				15324BF02C8B04810027BABA /* LoginView.swift */,
 				15324C062C8C75D90027BABA /* TodoListView.swift */,
 				15324C082C8CAB4F0027BABA /* AddTodoView.swift */,
-				15324C0E2C8E13620027BABA /* SignUpView.swift */,
+				15B112942C9B0AA400993B10 /* RegisterView.swift */,
 				155F1B052C8F4A770046F733 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -119,8 +122,8 @@
 				15324BF92C8B10500027BABA /* LoginViewModel.swift */,
 				15324C042C8C75C50027BABA /* TodoListViewModel.swift */,
 				15324C0A2C8CC1DD0027BABA /* AddTodoViewModel.swift */,
-				15324C102C8E13D70027BABA /* SignUpViewModel.swift */,
 				155F1B072C8F4BB50046F733 /* ContentViewModel.swift */,
+				15B112962C9B0C2300993B10 /* RegisterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -225,11 +228,12 @@
 				15324C132C8E24DE0027BABA /* User.swift in Sources */,
 				15324C072C8C75D90027BABA /* TodoListView.swift in Sources */,
 				15324C012C8C758F0027BABA /* Todo.swift in Sources */,
+				15B112952C9B0AA400993B10 /* RegisterView.swift in Sources */,
 				155F1B082C8F4BB50046F733 /* ContentViewModel.swift in Sources */,
-				15324C112C8E13D70027BABA /* SignUpViewModel.swift in Sources */,
+				15B112972C9B0C2300993B10 /* RegisterViewModel.swift in Sources */,
 				15324C0B2C8CC1DE0027BABA /* AddTodoViewModel.swift in Sources */,
+				15CC05972C94EF5600C1F3E4 /* templates.swift in Sources */,
 				15324BF12C8B04810027BABA /* LoginView.swift in Sources */,
-				15324C0F2C8E13620027BABA /* SignUpView.swift in Sources */,
 				15324BFF2C8C75680027BABA /* APIService.swift in Sources */,
 				15324C052C8C75C50027BABA /* TodoListViewModel.swift in Sources */,
 				15324BFA2C8B10500027BABA /* LoginViewModel.swift in Sources */,

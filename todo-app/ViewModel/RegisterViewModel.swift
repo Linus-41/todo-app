@@ -1,13 +1,27 @@
 import SwiftUI
 
-class SignUpViewModel: ObservableObject {
+class RegisterViewModel: ObservableObject {
     @Published var username: String = ""
     @Published var password: String = ""
     @Published var confirmPassword: String = ""
-    @Published var isSignedUp: Bool = false
     @Published var errorMessage: String?
     
+    func isValid()-> Bool{
+        if username.isEmpty || password.isEmpty || confirmPassword.isEmpty{
+            return false
+        }
+        
+        if password != confirmPassword{
+            return false
+        }
+        return true
+    }
+    
     func signUp(contentViewModel: ContentViewModel) {
+        if !isValid(){
+            errorMessage = "Passwords not matching!"
+            return
+        }
         APIService.shared.signUp(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -18,17 +32,6 @@ class SignUpViewModel: ObservableObject {
                 }
             }
         }
-    }
-    
-    func isValid()->Bool{
-        if username.isEmpty || password.isEmpty || confirmPassword.isEmpty{
-            return false
-        }
-        
-        if password != confirmPassword{
-            return false
-        }
-        return true
     }
     
     private func loginAfterSignUp(contentViewModel: ContentViewModel){
