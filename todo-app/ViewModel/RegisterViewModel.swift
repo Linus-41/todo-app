@@ -22,10 +22,12 @@ class RegisterViewModel: ObservableObject {
             errorMessage = "Passwords not matching!"
             return
         }
+        print("Signing in...")
         APIService.shared.signUp(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
+                    print("SignUp Done")
                     self.loginAfterSignUp(contentViewModel: contentViewModel)
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
