@@ -9,7 +9,9 @@ struct SettingsView: View {
             Form {
                 Section(header: Text("Account")) {
                     Button("Sign Out", action: {
+                        UserDefaults.standard.set(false, forKey: "stayLoggedIn")
                         contentViewModel.isSignedIn = false
+                        
                     })
                     .foregroundStyle(.red)
                 }

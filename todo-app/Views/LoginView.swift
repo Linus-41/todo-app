@@ -25,6 +25,14 @@ struct LoginView: View {
                     SecureField("Password", text: $loginViewModel.password)
                         .modifier(CustomTextFieldModifier())
                     
+                    HStack{
+                        Toggle("Stay logged in?", isOn: $loginViewModel.stayLoggedIn)
+                            .toggleStyle(iOSCheckboxToggleStyle())
+                        Text("Stay logged in")
+                        Spacer()
+                    }
+                    .padding(.vertical, 5)
+                    
                     if let errorMessage = loginViewModel.errorMessage{
                         Text("Error: \(errorMessage)")
                             .foregroundStyle(.red)

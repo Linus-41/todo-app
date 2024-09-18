@@ -4,31 +4,26 @@ class APIService {
     static let shared = APIService()
     private let baseURL = "http://localhost:8000"
     
-    // Access and Refresh tokens
     private var authToken: String? {
-        get { UserDefaults.standard.string(forKey: "authToken") }
-        set { UserDefaults.standard.set(newValue, forKey: "authToken") }
+        get { KeychainService.shared.getAccessToken() }
+        set { if let newValue = newValue { KeychainService.shared.saveAccessToken(newValue) } else { KeychainService.shared.delete(key: "accessToken") } }
     }
     
     private var refreshToken: String? {
-        get { UserDefaults.standard.string(forKey: "refreshToken") }
-        set { UserDefaults.standard.set(newValue, forKey: "refreshToken") }
+        get { KeychainService.shared.getRefreshToken() }
+        set { if let newValue = newValue { KeychainService.shared.saveRefreshToken(newValue) } else { KeychainService.shared.delete(key: "refreshToken") } }
     }
     
     private var tokenExpiration: Date? {
-        get { UserDefaults.standard.object(forKey: "tokenExpiration") as? Date }
-        set { UserDefaults.standard.set(newValue, forKey: "tokenExpiration") }
+        get { KeychainService.shared.getTokenExpiration() }
+        set { if let newValue = newValue { KeychainService.shared.saveTokenExpiration(newValue) } else { KeychainService.shared.deleteTokenExpiration() } }
     }
     
-    // Check if access token has expired
     private var isTokenExpired: Bool {
-        if let expiration = tokenExpiration {
-            return Date() >= expiration
-        }
-        return true
+        guard let expiration = tokenExpiration else { return true }
+        return Date() >= expiration
     }
     
-    // Function to login and get both access and refresh tokens
     func login(username: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/token") else {
             completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
@@ -57,7 +52,7 @@ class APIService {
             if response.statusCode == 200 {
                 do {
                     let tokenResponse = try JSONDecoder().decode(TokenResponse.self, from: data)
-                    self.saveToken(tokenResponse.access_token, refreshToken: tokenResponse.refresh_token, expiresIn: 1800)  // 30 min
+                    self.saveToken(tokenResponse.access_token, refreshToken: tokenResponse.refresh_token, expiresIn: 60)
                     completion(.success(tokenResponse.access_token))
                 } catch {
                     completion(.failure(error))
@@ -75,7 +70,6 @@ class APIService {
         task.resume()
     }
     
-    // Function to sign up a new user
     func signUp(username: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let url = URL(string: "\(baseURL)/user/") else {
             completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
@@ -111,7 +105,6 @@ class APIService {
         task.resume()
     }
     
-    // Function to refresh the access token using refresh token
     private func refreshAccessToken(completion: @escaping (Result<String, Error>) -> Void) {
         guard let refreshToken = self.refreshToken else {
             completion(.failure(NSError(domain: "Missing refresh token", code: -1, userInfo: nil)))
@@ -125,10 +118,15 @@ class APIService {
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        
-        let bodyParams = "refresh_token=\(refreshToken)"
-        request.httpBody = bodyParams.data(using: .utf8)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // Create the JSON body
+        let bodyParams = ["refresh_token": refreshToken]
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: bodyParams, options: []) else {
+            completion(.failure(NSError(domain: "Encoding error", code: -1, userInfo: nil)))
+            return
+        }
+        request.httpBody = httpBody
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -136,8 +134,14 @@ class APIService {
                 return
             }
 
-            guard let response = response as? HTTPURLResponse else { return }
-            guard let data = data else { return }
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(NSError(domain: "Invalid response", code: -1, userInfo: nil)))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+                return
+            }
             
             if response.statusCode == 200 {
                 do {
@@ -154,7 +158,48 @@ class APIService {
         task.resume()
     }
 
-    // Function to fetch todos with token refreshing logic
+    
+    func invalidateRefreshToken(toInvalidateToken: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/invalidate-token") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: String] = ["token": toInvalidateToken]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: body, options: [])
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(NSError(domain: "Invalidation failed", code: -1, userInfo: nil)))
+                return
+            }
+            
+            // If the token invalidation was successful, remove the refresh token from the keychain
+            self.refreshToken = nil
+            self.authToken = nil
+            self.tokenExpiration = nil
+            
+            completion(.success(()))
+        }
+        task.resume()
+    }
+
     func fetchTodos(excludeDone: Bool = false, excludeShared: Bool = false, skip: Int = 0, limit: Int = 100, completion: @escaping (Result<[Todo], Error>) -> Void) {
         if isTokenExpired {
             refreshAccessToken { result in
@@ -170,7 +215,6 @@ class APIService {
         }
     }
 
-    // Private helper function to execute the fetchTodos call
     private func executeFetchTodos(excludeDone: Bool, excludeShared: Bool, skip: Int, limit: Int, completion: @escaping (Result<[Todo], Error>) -> Void) {
         var components = URLComponents(string: "\(baseURL)/todos/")!
         components.queryItems = [
@@ -201,13 +245,10 @@ class APIService {
                 completion(.failure(error))
                 return
             }
+            
             guard let data = data else {
                 completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
                 return
-            }
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("Raw JSON response: \(jsonString)")
             }
             
             do {

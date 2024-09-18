@@ -37,6 +37,7 @@ class RegisterViewModel: ObservableObject {
     }
     
     private func loginAfterSignUp(contentViewModel: ContentViewModel){
+        contentViewModel.clearKeyChain()
         APIService.shared.login(username: username, password: password) { result in
             DispatchQueue.main.async {
                 switch result {

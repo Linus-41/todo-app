@@ -11,5 +11,8 @@ struct ContentView: View {
                 LoginView()
             }
         }
+        .onAppear(){
+            contentViewModel.checkStayLoggedIn()
+        }
     }
 }
