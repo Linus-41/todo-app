@@ -17,28 +17,9 @@ struct TodoListView: View {
             } else {
                 List {
                     ForEach(todoListViewModel.todos) { todo in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(todo.title)
-                                    .font(.headline)
-                                if let text = todo.text {
-                                    Text(text)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            Spacer()
-                            Image(systemName:
-                                    todo.isDone
-                                  ? "checkmark.circle.fill"
-                                  : "circle")
-                            .foregroundColor(todo.isDone
-                                             ? .green
-                                             : .gray)
-                            .onTapGesture {
-                                todoListViewModel.toggleTodoCompletion(todo)
-                            }
-                        }
+                        TodoItemView(todo: todo, toggleStatus: {
+                            todoListViewModel.toggleTodoCompletion(todo)
+                        })
                     }
                     .onDelete(perform: deleteTodo)
                 }
@@ -86,4 +67,7 @@ struct TodoListView: View {
 
 #Preview {
     TodoListView()
+        .onAppear{
+            KeychainService.shared.saveRefreshToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsaW51cyIsImV4cCI6MTcyOTM1OTU3OX0.ZawDqRDDUvarwr1QlmgvsaDo3JO35Jf-GB6V_AHROlA")
+        }
 }

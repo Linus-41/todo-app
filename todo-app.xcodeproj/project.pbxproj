@@ -26,6 +26,7 @@
 		15B112952C9B0AA400993B10 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B112942C9B0AA400993B10 /* RegisterView.swift */; };
 		15B112972C9B0C2300993B10 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B112962C9B0C2300993B10 /* RegisterViewModel.swift */; };
 		15B1129B2C9B1CA100993B10 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1129A2C9B1CA100993B10 /* KeyChainService.swift */; };
+		15B1129D2C9B573500993B10 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B1129C2C9B573500993B10 /* TodoItemView.swift */; };
 		15CC05972C94EF5600C1F3E4 /* templates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CC05962C94EF5600C1F3E4 /* templates.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		15B112942C9B0AA400993B10 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		15B112962C9B0C2300993B10 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		15B1129A2C9B1CA100993B10 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		15B1129C2C9B573500993B10 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
 		15CC05962C94EF5600C1F3E4 /* templates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = templates.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 				15324C082C8CAB4F0027BABA /* AddTodoView.swift */,
 				15B112942C9B0AA400993B10 /* RegisterView.swift */,
 				155F1B052C8F4A770046F733 /* SettingsView.swift */,
+				15B1129C2C9B573500993B10 /* TodoItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				15324C072C8C75D90027BABA /* TodoListView.swift in Sources */,
 				15324C012C8C758F0027BABA /* Todo.swift in Sources */,
 				15B112952C9B0AA400993B10 /* RegisterView.swift in Sources */,
+				15B1129D2C9B573500993B10 /* TodoItemView.swift in Sources */,
 				155F1B082C8F4BB50046F733 /* ContentViewModel.swift in Sources */,
 				15B112972C9B0C2300993B10 /* RegisterViewModel.swift in Sources */,
 				15324C0B2C8CC1DE0027BABA /* AddTodoViewModel.swift in Sources */,
