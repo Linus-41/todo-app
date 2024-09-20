@@ -253,6 +253,7 @@ class APIService {
             
             do {
                 let todos = try JSONDecoder().decode([Todo].self, from: data)
+                print(todos)
                 completion(.success(todos))
             } catch {
                 completion(.failure(error))

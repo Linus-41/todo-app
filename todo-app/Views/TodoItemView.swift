@@ -34,6 +34,6 @@ struct TodoItemView: View {
 
 
 #Preview {
-    TodoItemView(todo: Todo(id: 1, title: "Test-ToDo", text: "This has to be done", isDone: true, categoryId: nil, ownerId: 1, position: 1), toggleStatus: {
+    TodoItemView(todo: Todo(id: 1, title: "Test-ToDo", text: "This has to be done", isDone: true, ownerId: 1, position: 1), toggleStatus: {
     })
 }
