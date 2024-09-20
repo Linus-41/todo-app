@@ -3,6 +3,12 @@ import Security
 
 class KeychainService {
     static let shared = KeychainService()
+    
+    // MARK: - Clear Keychain
+    func clearTokens(){
+        delete(key: "accessToken")
+        delete(key: "refreshToken")
+    }
 
     // MARK: - Save Access Token
     func saveAccessToken(_ token: String) {

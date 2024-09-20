@@ -34,7 +34,7 @@ struct TodoCreate: Codable {
     }
 }
 
-struct Category: Identifiable, Codable {
+struct Category: Identifiable, Codable, Hashable {
     var id: Int
     var name: String
     var userId: Int

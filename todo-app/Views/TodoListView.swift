@@ -16,12 +16,35 @@ struct TodoListView: View {
                     .multilineTextAlignment(.center)
             } else {
                 List {
-                    ForEach(todoListViewModel.todos) { todo in
-                        TodoItemView(todo: todo, toggleStatus: {
-                            todoListViewModel.toggleTodoCompletion(todo)
-                        })
+                    ForEach(todoListViewModel.todos){ todo in
+                        if todo.category == nil{
+                            TodoItemView(todo: todo, toggleStatus: {
+                                todoListViewModel.toggleTodoCompletion(todo)
+                            })
+                        }
                     }
                     .onDelete(perform: deleteTodo)
+                    
+                    ForEach(getCategories(todos: todoListViewModel.todos)){ category in
+                        Section(category.name, content: {
+                            ForEach(todoListViewModel.todos) { todo in
+                                if todo.category == category{
+                                    TodoItemView(todo: todo, toggleStatus: {
+                                        todoListViewModel.toggleTodoCompletion(todo)
+                                    })
+                                }
+                            }
+                            .onDelete(perform: deleteTodo)
+                        })
+                    }
+                    
+                    Button(action: {
+                        
+                    }, label: {
+                        Label("Add new Category", systemImage: "plus")
+                    })
+                        
+                    
                 }
                 .overlay(content: {
                     if todoListViewModel.todos.isEmpty{
@@ -47,6 +70,7 @@ struct TodoListView: View {
                 })
                 .onAppear {
                     todoListViewModel.fetchTodos()
+                    print(getCategories(todos: todoListViewModel.todos))
                 }
                 .sheet(isPresented: $showingAddTodoView) {
                     AddTodoView(todoListViewModel: todoListViewModel)
@@ -63,11 +87,27 @@ struct TodoListView: View {
             todoListViewModel.deleteTodo(todo)
         }
     }
+    
+    private func getCategories(todos: [Todo]) -> [Category] {
+        var categoriesSet = Set<Category>()
+        
+        for todo in todos {
+            if let category = todo.category {
+                categoriesSet.insert(category)
+            }
+        }
+        
+        return Array(categoriesSet)
+    }
 }
 
 #Preview {
     TodoListView()
         .onAppear{
-            KeychainService.shared.saveRefreshToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsaW51cyIsImV4cCI6MTcyOTM1OTU3OX0.ZawDqRDDUvarwr1QlmgvsaDo3JO35Jf-GB6V_AHROlA")
+            
+            //KeychainService.shared.clearTokens()
+            KeychainService.shared.deleteTokenExpiration()
+            KeychainService.shared.saveRefreshToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlcjEyMyIsImV4cCI6MTcyOTQyMTY1MH0.HchtFpVKuVX9TNjGwOb-RWggSx6EaW4C8o4BPrO1O1Q")
+            
         }
 }
