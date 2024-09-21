@@ -377,6 +377,170 @@ class APIService {
         task.resume()
     }
     
+    func fetchCategories(skip: Int = 0, limit: Int = 100, completion: @escaping (Result<[Category], Error>) -> Void) {
+        if isTokenExpired {
+            refreshAccessToken { result in
+                switch result {
+                case .success:
+                    self.executeFetchCategories(skip: skip, limit: limit, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            executeFetchCategories(skip: skip, limit: limit, completion: completion)
+        }
+    }
+    
+    private func executeFetchCategories(skip: Int = 0, limit: Int = 100, completion: @escaping (Result<[Category], Error>) -> Void) {
+        var components = URLComponents(string: "\(baseURL)/categories/")!
+        components.queryItems = [
+            URLQueryItem(name: "skip", value: String(skip)),
+            URLQueryItem(name: "limit", value: String(limit))
+        ]
+        
+        guard let url = components.url else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            completion(.failure(NSError(domain: "Missing auth token", code: -1, userInfo: nil)))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let categories = try JSONDecoder().decode([Category].self, from: data)
+                print(categories)
+                completion(.success(categories))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
+    func createCategory(category: CategoryCreate, completion: @escaping (Result<Category, Error>) -> Void) {
+        if isTokenExpired {
+            refreshAccessToken { result in
+                switch result {
+                case .success:
+                    self.executeCreateCategory(category: category, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            executeCreateCategory(category: category, completion: completion)
+        }
+    }
+    
+    private func executeCreateCategory(category: CategoryCreate, completion: @escaping (Result<Category, Error>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/categories/") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            completion(.failure(NSError(domain: "Missing auth token", code: -1, userInfo: nil)))
+            return
+        }
+        
+        do {
+            let jsonData = try JSONEncoder().encode(category)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data", code: -1, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let newCategory = try JSONDecoder().decode(Category.self, from: data)
+                completion(.success(newCategory))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
+    func deleteCategory(categoryId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        if isTokenExpired {
+            refreshAccessToken { result in
+                switch result {
+                case .success:
+                    self.executeDeleteCategory(categoryId: categoryId, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            executeDeleteCategory(categoryId: categoryId, completion: completion)
+        }
+    }
+    
+    private func executeDeleteCategory(categoryId: Int, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/categories/\(categoryId)") else {
+            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if let token = authToken {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            completion(.failure(NSError(domain: "Missing auth token", code: -1, userInfo: nil)))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            completion(.success(())) // Assuming successful deletion
+        }
+        task.resume()
+    }
+    
     private func saveToken(_ accessToken: String, refreshToken: String, expiresIn: TimeInterval) {
         self.authToken = accessToken
         self.refreshToken = refreshToken

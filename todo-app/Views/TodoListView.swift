@@ -16,26 +16,25 @@ struct TodoListView: View {
                     .multilineTextAlignment(.center)
             } else {
                 List {
-                    ForEach(todoListViewModel.todos){ todo in
-                        if todo.category == nil{
-                            TodoItemView(todo: todo, toggleStatus: {
-                                todoListViewModel.toggleTodoCompletion(todo)
-                            })
-                        }
+                    ForEach(todoListViewModel.getFilteredTodos(category: nil, isDone: false)){todo in
+                        TodoItemView(todo: todo, toggleStatus: {todoListViewModel.toggleTodoCompletion(todo)})
                     }
-                    .onDelete(perform: deleteTodo)
                     
-                    ForEach(getCategories(todos: todoListViewModel.todos)){ category in
+                    ForEach(todoListViewModel.categories){category in
                         Section(category.name, content: {
-                            ForEach(todoListViewModel.todos) { todo in
-                                if todo.category == category{
-                                    TodoItemView(todo: todo, toggleStatus: {
-                                        todoListViewModel.toggleTodoCompletion(todo)
-                                    })
+                            ForEach(todoListViewModel.getFilteredTodos(category: category, isDone: false)){todo in
+                                TodoItemView(todo: todo, toggleStatus: {todoListViewModel.toggleTodoCompletion(todo)})
+                            }
+                        })
+                    }
+                    Section{
+                        DisclosureGroup("Done"){
+                            ForEach(todoListViewModel.todos){todo in
+                                if todo.isDone == true{
+                                    TodoItemView(todo: todo, toggleStatus: {todoListViewModel.toggleTodoCompletion(todo)})
                                 }
                             }
-                            .onDelete(perform: deleteTodo)
-                        })
+                        }
                     }
                     
                     Button(action: {
@@ -70,7 +69,7 @@ struct TodoListView: View {
                 })
                 .onAppear {
                     todoListViewModel.fetchTodos()
-                    print(getCategories(todos: todoListViewModel.todos))
+                    todoListViewModel.fetchCategories()
                 }
                 .sheet(isPresented: $showingAddTodoView) {
                     AddTodoView(todoListViewModel: todoListViewModel)
@@ -86,18 +85,6 @@ struct TodoListView: View {
             let todo = todoListViewModel.todos[index]
             todoListViewModel.deleteTodo(todo)
         }
-    }
-    
-    private func getCategories(todos: [Todo]) -> [Category] {
-        var categoriesSet = Set<Category>()
-        
-        for todo in todos {
-            if let category = todo.category {
-                categoriesSet.insert(category)
-            }
-        }
-        
-        return Array(categoriesSet)
     }
 }
 

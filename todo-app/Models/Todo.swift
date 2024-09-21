@@ -46,6 +46,10 @@ struct Category: Identifiable, Codable, Hashable {
     }
 }
 
+struct CategoryCreate: Codable{
+    var name: String
+}
+
 extension Todo {
     static let mockData: [Todo] = [
         Todo(id: 1, title: "Buy groceries", text: "Milk, Bread, Eggs", isDone: false, ownerId: 1, position: 1),
