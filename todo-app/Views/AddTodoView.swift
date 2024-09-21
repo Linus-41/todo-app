@@ -38,3 +38,7 @@ struct AddTodoView: View {
         dismiss()
     }
 }
+
+#Preview {
+    AddTodoView(todoListViewModel: TodoListViewModel())
+}
